@@ -9,4 +9,4 @@ BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
 Manager.initialize(119, 141, 0x000000);
 Keyboard.registerCallbacks();
-Manager.changeScene(new GameScene(false));
+Manager.changeScene(new GameScene(true));

@@ -18,3 +18,9 @@ export type Level = {
   targets: Target[];
   blocks: Block[];
 };
+
+export type TargetType =
+  | "Target"
+  | "Target_Small"
+  | "Target_Wide"
+  | "Target_Grow";

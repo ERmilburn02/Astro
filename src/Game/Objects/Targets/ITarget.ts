@@ -1,7 +1,5 @@
 import { DisplayObject, Point } from "pixi.js";
 
-// TODO: Make a base class that handles the movement logic
-
 export interface ITarget extends DisplayObject {
   startPos: Point;
   movePosArr: Point[];

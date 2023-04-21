@@ -5,8 +5,6 @@ import { Manager } from "../../Engine/Manager";
 import { ITarget } from "../Objects/Targets/ITarget";
 import { NormalTarget } from "../Objects/Targets/NormalTarget";
 
-// TODO: Move Target Movement Logic into Target Class
-
 export class GameScene extends Container implements IScene {
   assetBundles: string[] = ["game"];
 
@@ -106,10 +104,6 @@ export class GameScene extends Container implements IScene {
           target.hit();
         }
       });
-
-      if (!target.isHit) {
-        this.moveTarget(framesPassed, target);
-      }
     });
   }
 
@@ -118,8 +112,12 @@ export class GameScene extends Container implements IScene {
   }
 
   private checkCollision(obj1: DisplayObject, obj2: DisplayObject): boolean {
-    let hitArea1 = obj1.hitArea as Rectangle;
-    let hitArea2 = obj2.hitArea as Rectangle;
+    let hitArea1 = obj1.hitArea;
+    let hitArea2 = obj2.hitArea;
+
+    if (!(hitArea1 instanceof Rectangle) || !(hitArea2 instanceof Rectangle)) {
+      throw new Error("Invalid hitArea: must be of type Rectangle");
+    }
 
     let x1 = obj1.x - obj1.pivot.x + hitArea1.x;
     let y1 = obj1.y - obj1.pivot.y + hitArea1.y;
@@ -136,36 +134,5 @@ export class GameScene extends Container implements IScene {
     }
 
     return false;
-  }
-
-  private moveTarget(framesPassed: number, target: ITarget): void {
-    let moveTowards: Point = target.getCurrentPos();
-
-    // Test if target is within 1 pixel of the target position
-    if (
-      Math.abs(target.x - moveTowards.x) < 1 &&
-      Math.abs(target.y - moveTowards.y) < 1
-    ) {
-      target.nextPos();
-      moveTowards = target.getCurrentPos();
-    }
-
-    let moveX: number = 0;
-    let moveY: number = 0;
-
-    if (target.x < moveTowards.x) {
-      moveX = 0.5;
-    } else if (target.x > moveTowards.x) {
-      moveX = -0.5;
-    }
-
-    if (target.y < moveTowards.y) {
-      moveY = 0.5;
-    } else if (target.y > moveTowards.y) {
-      moveY = -0.5;
-    }
-
-    target.position.x += moveX * framesPassed;
-    target.position.y += moveY * framesPassed;
   }
 }
