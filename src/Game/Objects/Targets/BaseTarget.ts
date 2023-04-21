@@ -115,11 +115,11 @@ export abstract class BaseTarget extends Container implements ITarget {
     let spriteString = this.spriteBaseName;
 
     if (this.isHit) {
-      spriteString += "_Hit";
+      spriteString += "-Hit";
     } else if (this.isDouble) {
-      spriteString += "_Double";
+      spriteString += "-Double";
     } else if (this.isLife) {
-      spriteString += "_Life";
+      spriteString += "-Life";
     }
 
     this.sprite.texture = Sprite.from(spriteString).texture;

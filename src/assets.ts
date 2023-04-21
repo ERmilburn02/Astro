@@ -5,8 +5,18 @@ export const manifest: ResolverManifest = {
     {
       name: "game",
       assets: {
-        // Foreground
+        // Spritesheet
+        sprites: "data/Sprites.json",
+      },
+    },
+  ],
+};
+
+/*
+{
+        // UI
         Frame: "img/Frame.png",
+        Bullet_UI: "img/Bullet-UI.png",
         // Blaster
         Blaster: "img/Blaster.png",
         Blaster_Destroyed: "img/Blaster-Destroyed.png",
@@ -30,7 +40,5 @@ export const manifest: ResolverManifest = {
         // Grow Target
         Target_Grow: "img/Target-Grow.png",
         Target_Grow_Hit: "img/Target-Grow-Hit.png",
-      },
-    },
-  ],
-};
+      }
+*/
