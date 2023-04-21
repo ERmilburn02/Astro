@@ -4,6 +4,8 @@ import { Player } from "../Objects/Player";
 import { Manager } from "../../Engine/Manager";
 import { ITarget } from "../Objects/Targets/ITarget";
 import { NormalTarget } from "../Objects/Targets/NormalTarget";
+import { Level, Vec2 } from "../types";
+import { Level_1 } from "../Levels";
 
 export class GameScene extends Container implements IScene {
   assetBundles: string[] = ["game"];
@@ -21,55 +23,6 @@ export class GameScene extends Container implements IScene {
 
     this.player = new Player(this.showDebugCollider);
 
-    this.targets.push(
-      new NormalTarget(
-        new Point(Manager.width / 2, Manager.height / 2 - 44),
-        [
-          new Point(8 + 17, Manager.height / 2 - 44),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 - 44),
-        ],
-        false,
-        false,
-        this.showDebugCollider
-      )
-    );
-    this.targets.push(
-      new NormalTarget(
-        new Point(Manager.width / 2 + 16, Manager.height / 2 - 28),
-        [
-          new Point(8 + 17, Manager.height / 2 - 28),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 - 28),
-        ],
-        false,
-        false,
-        this.showDebugCollider
-      )
-    );
-    this.targets.push(
-      new NormalTarget(
-        new Point(Manager.width / 2, Manager.height / 2 - 12),
-        [
-          new Point(8 + 17, Manager.height / 2 - 12),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 - 12),
-        ],
-        false,
-        false,
-        this.showDebugCollider
-      )
-    );
-    this.targets.push(
-      new NormalTarget(
-        new Point(Manager.width / 2 + 16, Manager.height / 2 + 4),
-        [
-          new Point(8 + 17, Manager.height / 2 + 4),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 + 4),
-        ],
-        false,
-        false,
-        this.showDebugCollider
-      )
-    );
-
     this.sortableChildren = true;
   }
 
@@ -79,11 +32,7 @@ export class GameScene extends Container implements IScene {
     this.player.position.set(Manager.width / 2, Manager.height - 4 - 22);
     this.addChild(this.player);
 
-    this.targets.forEach((target) => {
-      target.constructorWithAssets();
-      target.position.set(target.startPos.x, target.startPos.y);
-      this.addChild(target);
-    });
+    this.loadLayout(Level_1);
 
     this.foreground = Sprite.from("Frame");
     this.foreground.anchor.set(0.5, 0.5);
@@ -134,5 +83,59 @@ export class GameScene extends Container implements IScene {
     }
 
     return false;
+  }
+
+  private loadLayout(layout: Level): void {
+    // First, clear the current layout
+    this.targets.forEach((target) => {
+      this.removeChild(target);
+      target.destroy();
+    });
+    this.targets = [];
+
+    // Then, load the new layout
+    layout.targets.forEach((layoutTarget) => {
+      let target: ITarget;
+
+      switch (layoutTarget.type) {
+        case "Target":
+          target = new NormalTarget(
+            this.Vec2ToPoint(layoutTarget.startPos),
+            this.Vec2ArrayToPointArray(layoutTarget.points),
+            layoutTarget.isDouble,
+            layoutTarget.isLife,
+            this.showDebugCollider
+          );
+          break;
+        case "Target_Small":
+        case "Target_Wide":
+        case "Target_Grow":
+          throw new Error("Not implemented");
+        default:
+          throw new Error("Invalid target type");
+      }
+
+      target.constructorWithAssets();
+      target.position.set(target.startPos.x, target.startPos.y); // This should probably be done at the end of constructorWithAssets()
+      this.addChild(target);
+      this.targets.push(target);
+    });
+
+    // Reset the player
+    this.player.reset();
+  }
+
+  private Vec2ToPoint(vec: Vec2): Point {
+    return new Point(vec.x, vec.y);
+  }
+
+  private Vec2ArrayToPointArray(vecArray: Vec2[]): Point[] {
+    let pointArray: Point[] = [];
+
+    vecArray.forEach((vec) => {
+      pointArray.push(this.Vec2ToPoint(vec));
+    });
+
+    return pointArray;
   }
 }

@@ -4,7 +4,10 @@ export type Vec2 = {
 };
 
 export type Target = {
+  type: TargetType;
   startPos: Vec2;
+  isDouble: boolean;
+  isLife: boolean;
   points: Vec2[];
 };
 

@@ -13,6 +13,6 @@ export class NormalTarget extends BaseTarget {
 
     this.pivot.set(8);
 
-    this.hitArea = new Rectangle(2, 1, 12, 12);
+    this.hitArea = new Rectangle(2, 2, 12, 12);
   }
 }
