@@ -23,10 +23,10 @@ export class GameScene extends Container implements IScene {
 
     this.targets.push(
       new NormalTarget(
-        new Point(Manager.width / 2, Manager.height / 2 - 32),
+        new Point(Manager.width / 2, Manager.height / 2 - 44),
         [
-          new Point(8 + 17, Manager.height / 2 - 32),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 - 32),
+          new Point(8 + 17, Manager.height / 2 - 44),
+          new Point(Manager.width - 8 - 12, Manager.height / 2 - 44),
         ],
         false,
         false,
@@ -35,10 +35,10 @@ export class GameScene extends Container implements IScene {
     );
     this.targets.push(
       new NormalTarget(
-        new Point(Manager.width / 2 + 16, Manager.height / 2 - 16),
+        new Point(Manager.width / 2 + 16, Manager.height / 2 - 28),
         [
-          new Point(8 + 17, Manager.height / 2 - 16),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 - 16),
+          new Point(8 + 17, Manager.height / 2 - 28),
+          new Point(Manager.width - 8 - 12, Manager.height / 2 - 28),
         ],
         false,
         false,
@@ -47,10 +47,10 @@ export class GameScene extends Container implements IScene {
     );
     this.targets.push(
       new NormalTarget(
-        new Point(Manager.width / 2, Manager.height / 2),
+        new Point(Manager.width / 2, Manager.height / 2 - 12),
         [
-          new Point(8 + 17, Manager.height / 2),
-          new Point(Manager.width - 8 - 12, Manager.height / 2),
+          new Point(8 + 17, Manager.height / 2 - 12),
+          new Point(Manager.width - 8 - 12, Manager.height / 2 - 12),
         ],
         false,
         false,
@@ -59,10 +59,10 @@ export class GameScene extends Container implements IScene {
     );
     this.targets.push(
       new NormalTarget(
-        new Point(Manager.width / 2 + 16, Manager.height / 2 + 16),
+        new Point(Manager.width / 2 + 16, Manager.height / 2 + 4),
         [
-          new Point(8 + 17, Manager.height / 2 + 16),
-          new Point(Manager.width - 8 - 12, Manager.height / 2 + 16),
+          new Point(8 + 17, Manager.height / 2 + 4),
+          new Point(Manager.width - 8 - 12, Manager.height / 2 + 4),
         ],
         false,
         false,
