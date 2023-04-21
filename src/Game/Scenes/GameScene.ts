@@ -6,6 +6,7 @@ import { ITarget } from "../Objects/Targets/ITarget";
 import { NormalTarget } from "../Objects/Targets/NormalTarget";
 import { Level, Vec2 } from "../types";
 import { Level_1 } from "../Levels";
+import { Keyboard } from "../Keyboard";
 
 export class GameScene extends Container implements IScene {
   assetBundles: string[] = ["game"];
@@ -13,6 +14,9 @@ export class GameScene extends Container implements IScene {
   private player: Player;
   private foreground: Sprite = new Sprite();
   private targets: ITarget[] = [];
+
+  private levels: Level[] = [Level_1];
+  private currentLevelIndex: number = 0;
 
   private showDebugCollider: boolean = false;
 
@@ -32,18 +36,21 @@ export class GameScene extends Container implements IScene {
     this.player.position.set(Manager.width / 2, Manager.height - 4 - 22);
     this.addChild(this.player);
 
-    this.loadLayout(Level_1);
+    this.loadLayout(this.levels[this.currentLevelIndex]);
 
     this.foreground = Sprite.from("Frame");
     this.foreground.anchor.set(0.5, 0.5);
     this.foreground.position.set(Manager.width / 2, Manager.height / 2);
     this.foreground.zIndex = 10;
     this.addChild(this.foreground);
+
+    Keyboard.addMapping("KeyR", this.callbackRestart.bind(this));
   }
 
   public update(framesPassed: number): void {
     this.player.update(framesPassed);
 
+    let allTargetsHit = true;
     this.targets.forEach((target) => {
       target.update(framesPassed);
 
@@ -53,11 +60,27 @@ export class GameScene extends Container implements IScene {
           target.hit();
         }
       });
+
+      if (!target.isHit) allTargetsHit = false;
     });
+
+    if (allTargetsHit) {
+      this.nextLevel();
+    }
+
+    if (
+      this.player.getCurrentBullets() <= 0 &&
+      this.player.getBullets().length <= 0
+    ) {
+      // TODO: Loose a life if all bullets are gone
+      this.callbackRestart(true);
+    }
   }
 
   cleanup(): void {
     this.player.cleanup();
+
+    Keyboard.removeMapping("KeyR");
   }
 
   private checkCollision(obj1: DisplayObject, obj2: DisplayObject): boolean {
@@ -122,6 +145,7 @@ export class GameScene extends Container implements IScene {
     });
 
     // Reset the player
+    this.player.setInitialBullets(layout.bullets);
     this.player.reset();
   }
 
@@ -137,5 +161,21 @@ export class GameScene extends Container implements IScene {
     });
 
     return pointArray;
+  }
+
+  private callbackRestart(state: boolean): void {
+    if (state) {
+      this.loadLayout(this.levels[this.currentLevelIndex]);
+    }
+  }
+
+  private nextLevel(): void {
+    this.currentLevelIndex++;
+
+    if (this.currentLevelIndex >= this.levels.length) {
+      this.currentLevelIndex = 0;
+    }
+
+    this.loadLayout(this.levels[this.currentLevelIndex]);
   }
 }

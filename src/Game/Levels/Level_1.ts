@@ -1,22 +1,22 @@
 import { Level } from "../types";
 
 export const Level_1: Level = {
-  bullets: 0,
+  bullets: 6,
   targets: [
     {
       type: "Target",
       startPos: {
         x: 60,
-        y: 26,
+        y: 30,
       },
       points: [
         {
           x: 25,
-          y: 26,
+          y: 30,
         },
         {
           x: 100,
-          y: 26,
+          y: 30,
         },
       ],
       isDouble: false,
@@ -26,16 +26,16 @@ export const Level_1: Level = {
       type: "Target",
       startPos: {
         x: 76,
-        y: 42,
+        y: 45,
       },
       points: [
         {
           x: 25,
-          y: 42,
+          y: 45,
         },
         {
           x: 100,
-          y: 42,
+          y: 45,
         },
       ],
       isDouble: false,
@@ -45,16 +45,16 @@ export const Level_1: Level = {
       type: "Target",
       startPos: {
         x: 60,
-        y: 58,
+        y: 60,
       },
       points: [
         {
           x: 25,
-          y: 58,
+          y: 60,
         },
         {
           x: 100,
-          y: 58,
+          y: 60,
         },
       ],
       isDouble: false,
@@ -64,16 +64,16 @@ export const Level_1: Level = {
       type: "Target",
       startPos: {
         x: 76,
-        y: 74,
+        y: 75,
       },
       points: [
         {
           x: 25,
-          y: 74,
+          y: 75,
         },
         {
           x: 100,
-          y: 74,
+          y: 75,
         },
       ],
       isDouble: false,

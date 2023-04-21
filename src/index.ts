@@ -14,4 +14,3 @@ Manager.changeScene(new GameScene(false));
 // TODO: UI
 // TODO: Lose Life
 // TODO: Game Over
-// TODO: Move sprites to atlas

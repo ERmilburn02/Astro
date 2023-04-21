@@ -20,8 +20,8 @@ export class Player extends Container {
   private moveLeft: boolean = false;
   private moveRight: boolean = false;
 
-  private initialBullets: number = 0;
-  private currentBullets: number = 0;
+  private initialBullets: number = 5;
+  private currentBullets: number = -1;
 
   constructor(showDebugCollider: boolean = false) {
     super();
@@ -63,16 +63,16 @@ export class Player extends Container {
 
   private callbackShoot(state: boolean): void {
     if (state) {
-      // TODO: Check if we have enough bullets left
-      console.log(this.currentBullets);
+      if (this.currentBullets > 0) {
+        this.currentBullets -= 1;
+        let bullet = new Bullet(this, this.showDebugCollider);
+        bullet.constructorWithAssets();
 
-      let bullet = new Bullet(this, this.showDebugCollider);
-      bullet.constructorWithAssets();
+        bullet.position.set(this.position.x, this.position.y - 8);
+        this.parent.addChild(bullet);
 
-      bullet.position.set(this.position.x, this.position.y - 8);
-      this.parent.addChild(bullet);
-
-      this.bullets.push(bullet);
+        this.bullets.push(bullet);
+      }
     }
   }
 
@@ -96,8 +96,6 @@ export class Player extends Container {
     this.bullets.forEach((bullet) => {
       bullet.update(framesPassed);
     });
-
-    // TODO: Loose a life if all bullets are gone
 
     if (this.showDebugCollider) {
       this.hitAreaDebug.clear();
@@ -136,6 +134,10 @@ export class Player extends Container {
 
   public setInitialBullets(bullets: number): void {
     this.initialBullets = bullets;
+  }
+
+  public getCurrentBullets(): number {
+    return this.currentBullets;
   }
 
   reset() {
